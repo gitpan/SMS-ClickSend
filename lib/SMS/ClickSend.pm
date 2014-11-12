@@ -2,7 +2,7 @@ package SMS::ClickSend;
 
 use strict;
 use 5.008_005;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Carp;
 use LWP::UserAgent;
@@ -81,7 +81,7 @@ sub request {
 
     my $req = HTTP::Request->new($method, $uri, HTTP::Headers->new(%headers));
     my $res = $self->{ua}->request($req);
-    if (not $res->is_success) {
+    if (not $res->header('Content-Type') =~ /json/) {
         $errstr = $res->status_line;
         return;
     }
